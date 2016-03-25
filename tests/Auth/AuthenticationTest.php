@@ -20,6 +20,16 @@ class AuthenticationTest extends TestCase
             ->seeJson([
                 'name' => $credentials['name'],
                 'email' => $credentials['email'],
-            ]);
+            ])->assertResponseStatus(200);
+    }
+    public function test_user_can_login()
+    {
+        $user = factory(User::class)->create();
+
+        $req = $this->post('/api/auth/login', $user)
+            ->seeJson([
+                'name' => $user->name,
+                'email' => $user->email,
+            ])->assertResponseStatus(200);
     }
 }
