@@ -1,18 +1,25 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AuthenticationTest extends TestCase
 {
+    use DatabaseMigrations;
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test_user_can_register()
     {
-        $this->assertTrue(true);
+        $credentials['name'] = 'John';
+        $credentials['email'] = 'john@gmail.com';
+        $credentials['password'] = str_random(5);
+
+        $this->post('/api/auth/register', $credentials)
+            ->seeJson([
+                'name' => $credentials['name'],
+                'email' => $credentials['email'],
+            ]);
     }
 }
