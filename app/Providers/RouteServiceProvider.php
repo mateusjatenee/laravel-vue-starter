@@ -59,7 +59,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $router->group([
-            'namespace' => 'App\Http\Controllers\Api', 'middleware' => 'api',
+            'namespace' => 'App\Http\Controllers\Api', 'middleware' => 'api', 'prefix' => 'api',
         ], function ($router) {
             require app_path('Http/Routes/ApiRoutes.php');
         });
