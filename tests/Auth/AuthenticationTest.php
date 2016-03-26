@@ -1,7 +1,8 @@
 <?php
 
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticationTest extends TestCase
 {
@@ -25,13 +26,19 @@ class AuthenticationTest extends TestCase
     }
     public function test_user_can_login()
     {
-        $user = factory(User::class)->create();
+
+        $password = str_random(10);
+        $user = factory(User::class)->create([
+            'password' => bcrypt($password),
+        ]);
 
         $token = JWTAuth::fromUser($user);
 
-        $req = $this->post('/api/auth/login', $user)
-            ->seeJson([
-                'token' => $token,
-            ])->assertResponseStatus(200);
+        $req = $this->post('/api/auth/login', [
+            'email' => $user->email,
+            'password' => $password,
+        ])->seeJson([
+            'token' => $token,
+        ]);
     }
 }
