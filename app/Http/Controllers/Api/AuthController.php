@@ -9,7 +9,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-
     public function login(Request $request)
     {
         // grab credentials from the request
@@ -26,8 +25,8 @@ class AuthController extends Controller
         }
 
         return response()->json(compact('token'));
-
     }
+
     public function register(Request $request)
     {
         $credentials = $request->only(['name', 'email', 'password']);
